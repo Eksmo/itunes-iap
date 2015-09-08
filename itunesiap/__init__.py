@@ -7,16 +7,14 @@
     :copyright: (c) 2013 Jeong YunWon - 2014 Andy Briggs
     :license: 2-clause BSD.
 """
+from pkg_resources import get_distribution, DistributionNotFound
 
-from six import PY3
-import pkg_resources
-
-__version__ = pkg_resources.resource_string('itunesiap', 'version.txt').strip()
-if PY3:
-    __version__ = __version__.decode('ascii')
-VERSION = tuple(int(v) for v in __version__.split('.'))
-
-from .core import Request, Receipt, set_verification_mode, get_verification_mode
-from .exceptions import InvalidReceipt, ModeNotAvailable, RequestError
+from .core import Request, Receipt
+from .exceptions import InvalidReceipt, RequestError
 from .shortcut import verify
 
+
+try:
+    VERSION = tuple(map(int, get_distribution('itunesiap').version.split('.')))
+except DistributionNotFound:
+    VERSION = None

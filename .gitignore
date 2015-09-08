@@ -4,3 +4,6 @@ dist
 *.pyc
 *.egg-info
 MANIFEST
+/build
+
+.tox

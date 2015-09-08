@@ -1,22 +1,27 @@
-
-from prettyexc import PrettyException as E
-
-
-class ModeNotAvailable(E):
-    message = '`mode` should be one of `production`, `sandbox`, `review`, `reject`'
+from .utils import force_unicode
 
 
-class RequestError(E):
+class ItunesException(Exception):
+
+    def __init__(self, *messages):
+        msg = u'\n'.join(map(force_unicode, messages))
+        super(ItunesException, self).__init__(msg)
+
+
+class ConnectionError(ItunesException):
     pass
 
 
-class ItunesServerNotAvailable(RequestError):
+class RequestError(ItunesException):
+    pass
+
+
+class ItunesNotAvailable(RequestError):
     pass
 
 
 class InvalidReceipt(RequestError):
-    _req_kwargs_keys = ['status']
-    _descriptions = {
+    codes = {
         21000: 'The App Store could not read the JSON object you provided.',
         21002: 'The data in the receipt-data property was malformed.',
         21003: 'The receipt could not be authenticated.',
@@ -27,8 +32,13 @@ class InvalidReceipt(RequestError):
         21008: 'This receipt is a production receipt, but it was sent to the sandbox service for verification.',
     }
 
-    @property
-    def description(self):
-        if self.status in self._descriptions:
-            return self._descriptions[self.status]
-        return None
+    def __init__(self, *args, status=None):
+        try:
+            description = self.codes[status]
+        except KeyError:
+            pass
+        else:
+            self.status = status
+            args = ('{}: {}'.format(status, description),) + args
+
+        super(InvalidReceipt, self).__init__(*args)
