@@ -32,8 +32,9 @@ class InvalidReceipt(RequestError):
         21008: 'This receipt is a production receipt, but it was sent to the sandbox service for verification.',
     }
 
-    def __init__(self, *args, status=None):
+    def __init__(self, *args, **kwargs):
         try:
+            status = kwargs.pop('status')
             description = self.codes[status]
         except KeyError:
             pass
@@ -41,4 +42,4 @@ class InvalidReceipt(RequestError):
             self.status = status
             args = ('{}: {}'.format(status, description),) + args
 
-        super(InvalidReceipt, self).__init__(*args)
+        super(InvalidReceipt, self).__init__(*args, **kwargs)
