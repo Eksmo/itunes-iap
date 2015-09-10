@@ -102,4 +102,5 @@ class Receipt(dict):
         dict.__init__(self, data['receipt'])
 
     def __repr__(self):
-        return u'<Receipt({0}, {1})>'.format(self.status, self.receipt)
+        repr = super(Receipt, self).__repr__()
+        return u'<Receipt(status:{0}, {1})>'.format(self.status, repr)
