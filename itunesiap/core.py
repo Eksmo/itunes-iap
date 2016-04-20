@@ -36,7 +36,7 @@ class Request(object):
             payload['password'] = self.password
 
         try:
-            response = requests.post(url, json.dumps(payload), timeout=self.timeout, verify=False)
+            response = requests.post(url, json.dumps(payload), timeout=self.timeout, verify=True)
         except requests.RequestException as e:
             raise exceptions.ConnectionError('failed to request %s: %s' % (url, e))
 

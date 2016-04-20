@@ -5,7 +5,7 @@ import pytest
 import mock
 import requests
 
-from itunesiap import Request, Receipt
+from itunesiap import Request
 from itunesiap import exceptions
 from itunesiap.core import RECEIPT_PRODUCTION_VALIDATION_URL, RECEIPT_SANDBOX_VALIDATION_URL
 from itunesiap.shortcut import verify
