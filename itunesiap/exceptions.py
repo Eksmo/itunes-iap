@@ -30,6 +30,7 @@ class InvalidReceipt(RequestError):
         21006: 'This receipt is valid but the subscription has expired. When this status code is returned to your server, the receipt data is also decoded and returned as part of the response.',
         21007: 'This receipt is a sandbox receipt, but it was sent to the production service for verification.',
         21008: 'This receipt is a production receipt, but it was sent to the sandbox service for verification.',
+        21010: 'This receipt could not be authorized. Treat this the same as if a purchase was never made.',
     }
 
     def __init__(self, *args, **kwargs):
